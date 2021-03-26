@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+<meta charset="ISO-8859-1">
+<title>Raymond Gines Stemmer</title>
+
+	<script src="/webjars/jquery/jquery.min.js"></script>
+	<script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+
+	<link href='/webjars/bootstrap/css/bootstrap.min.css' rel='stylesheet' media="screen">
+    <link href="../static/css/spring-core.css" th:href="@{css/spring-core.css}" rel="stylesheet" media="screen"/>
+
+</head>
+<body class="container">
+	<div>
+		<div class="card mb-auto">
+			<div class="card-header">
+	           	<h4>Word Stemmer</h4>
+	        </div>
+		</div>
+		
+		<div class="card-body">
+			<form th:action="@{/stemmer/execute}" th:object="${search}" method="post">
+				<div class="form-group row">
+					<select class="form-control col-sm-4"id="fileName" th:name="fileName" th:value="${search.fileName}">
+					  <option value="" selected>(Please select)</option>
+					  <option value="Text1.txt">Declaration of Independence</option>
+					  <option value="Text2.txt">Alice in Wonderland</option>
+					</select>
+					
+					<input class="btn btn-primary col col-sm-2" type="submit" value="Process Stem">
+					
+				</div>
+				
+				<div class="form-group row">
+<!-- 	                <div class="col col-sm-4"></div> -->
+<!-- 	                <input class="btn btn-primary col col-sm-3" type="submit" value="Process Stem"> -->
+	            </div>
+	            
+			</form>
+		</div>
+		
+	</div>
+	
+	<div>
+    	<div th:fragment="header">
+        	<h4>Stem Words</h4>
+        </div>
+        <table class="table table-striped">
+            <tr>
+            	<th>#</th>
+                <th>Root Word</th>
+                <th>Count</th>
+                <th>Original Words</th>
+            </tr>
+            <tr th:each="word : ${words}">
+                <td th:text="${word.rowNumber}"></td>
+                <td th:text="${word.stemWord}"></td>
+                <td th:text="${word.count}"></td>
+                <td th:text="${word.originalWords}"></td>
+            </tr>
+        </table>
+    </div>
+	
+</body>
+</html>
