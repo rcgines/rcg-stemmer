@@ -1,4 +1,4 @@
-# The Stemmer algorithm processes the following steps:
+# The Stemming algorithm processes the following steps:
 
 1. Reads in a text file.
 2. Removes stop words (as listed in stopwords.txt file) and all non-alphabetical texts.
