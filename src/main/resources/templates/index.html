@@ -14,27 +14,25 @@
 <body class="container">
 	<div>
 		<div class="card mb-auto">
-			<div class="card-header">
-	           	<h4>Word Stemmer</h4>
+			<div class="card-header text-white" style="background-color: #1F618D;">
+	           	<h4 style="float: left;">Word Stemmer</h4>
+	           	<h4 style="float: right;">By: Raymond Gines</h4>
 	        </div>
 		</div>
 		
 		<div class="card-body">
 			<form th:action="@{/stemmer/execute}" th:object="${search}" method="post">
 				<div class="form-group row">
-					<select class="form-control col-sm-4"id="fileName" th:name="fileName" th:value="${search.fileName}">
-					  <option value="" selected>(Please select)</option>
-					  <option value="Text1.txt">Declaration of Independence</option>
-					  <option value="Text2.txt">Alice in Wonderland</option>
+					<select class="form-control col-sm-4"id="fileName" th:name="fileName" th:value="${search.fileName}" th:required="true">
+						<option th:each="file : ${textFiles}" th:value="${file.fileName}" th:text="${file.fileDescription}">
+   						</option>
 					</select>
-					
-					<input class="btn btn-primary col col-sm-2" type="submit" value="Process Stem">
-					
+					<input class="btn btn-primary col col-sm-2" type="submit" value="Process">
 				</div>
 				
 				<div class="form-group row">
-<!-- 	                <div class="col col-sm-4"></div> -->
-<!-- 	                <input class="btn btn-primary col col-sm-3" type="submit" value="Process Stem"> -->
+					<h4 th:text=${resultTitle} style="color: #1F618D;"></h4>
+					<textarea id="textContent" name="content" th:text="${textContent}" rows="6" cols="500"></textarea>
 	            </div>
 	            
 			</form>
@@ -44,9 +42,9 @@
 	
 	<div>
     	<div th:fragment="header">
-        	<h4>Stem Words</h4>
+        	<h4 style="color: #1F618D;">Stem Words</h4>
         </div>
-        <table class="table table-striped">
+        <table class="table table-striped" style="color: #1F618D;">
             <tr>
             	<th>#</th>
                 <th>Root Word</th>

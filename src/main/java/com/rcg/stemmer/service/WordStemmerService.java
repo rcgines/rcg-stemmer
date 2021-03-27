@@ -1,14 +1,20 @@
 package com.rcg.stemmer.service;
 
 import java.io.File;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.Scanner;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.rcg.stemmer.configuration.StemmerConfig;
 import com.rcg.stemmer.model.OriginalWord;
+import com.rcg.stemmer.model.StemTexFile;
 import com.rcg.stemmer.model.StemWord;
 import com.rcg.stemmer.model.StopWord;
 import com.rcg.stemmer.util.SortableValueMap;
@@ -32,11 +38,13 @@ public class WordStemmerService {
 
 	private StopWord stopWord;
 	private OriginalWord originalWord;
+	private StemmerConfig config;
 
 	@Autowired
-	public WordStemmerService(StopWord stopWord, OriginalWord originalWord) {
+	public WordStemmerService(StopWord stopWord, OriginalWord originalWord, StemmerConfig config) {
 		this.stopWord = stopWord;
 		this.originalWord = originalWord;
+		this.config = config;
 	}
 
 	public SortableValueMap<String, StemWord> processTextFile(File stopWordsFile, File textFile) {
@@ -80,6 +88,55 @@ public class WordStemmerService {
 			}
 		}
 		return stemmedMap;
+	}
+
+	private File getFile(String fileName) throws URISyntaxException {
+		return new File(config.getPath() + fileName);
+	}
+
+	public String getFileContent(String fileName) {
+
+		StringBuffer buffer = new StringBuffer();
+		Scanner scanner = null;
+		try {
+			File textFile = getFile(fileName);
+			scanner = new Scanner(textFile);
+			while (scanner.hasNextLine()) {
+				String line = scanner.nextLine();
+				buffer.append(line);
+				buffer.append("\r\n");
+			}
+
+		} catch (Exception ex) {
+			LOGGER.error("Error extracting content = {}", fileName, ex);
+		} finally {
+			if (scanner != null) {
+				scanner.close();
+			}
+		}
+
+		return buffer.toString();
+	}
+
+	public List<StemTexFile> getStemTexFiles() {
+		List<StemTexFile> textFiles = new ArrayList<>();
+
+		textFiles.add(new StemTexFile("", "(Please select a text file)"));
+		textFiles.add(new StemTexFile(config.getText1FileName(), config.getText1FileDescription()));
+		textFiles.add(new StemTexFile(config.getText2FileName(), config.getText2FileDescription()));
+
+		return textFiles;
+	}
+
+	public String getFileDescription(String fileName) {
+		String description = "";
+		List<StemTexFile> textFiles = getStemTexFiles();
+
+		Optional<StemTexFile> optional = textFiles.stream().filter(p -> p.getFileName().equals(fileName)).findFirst();
+		if (optional.isPresent()) {
+			description = optional.get().getFileDescription();
+		}
+		return description;
 	}
 
 }

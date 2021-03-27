@@ -50,7 +50,7 @@ public class StemWord implements Comparable<StemWord> {
 
 	public String getOriginalWords() {
 		if (!getOriginalWordList().isEmpty()) {
-			originalWords = String.join(",", getOriginalWordList());
+			originalWords = String.join(", ", getOriginalWordList());
 		}
 		return originalWords;
 	}

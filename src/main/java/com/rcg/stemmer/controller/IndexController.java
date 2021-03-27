@@ -28,7 +28,7 @@ public class IndexController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(IndexController.class);
 
 	@Autowired
-	private WordStemmerService wordStemmerService;
+	private WordStemmerService service;
 
 	@Autowired
 	private StemmerConfig stemmerConfig;
@@ -37,6 +37,8 @@ public class IndexController {
 	public String index(Model model) {
 		model.addAttribute("words", new ArrayList<StemWord>());
 		model.addAttribute("search", new TextFileSearch());
+		model.addAttribute("resultTitle", "");
+		model.addAttribute("textFiles", service.getStemTexFiles());
 		return "index";
 	}
 
@@ -44,6 +46,9 @@ public class IndexController {
 	public String execute(@ModelAttribute TextFileSearch textFileSearch, Model model) {
 		model.addAttribute("words", executeStemmer(textFileSearch));
 		model.addAttribute("search", textFileSearch);
+		model.addAttribute("resultTitle", service.getFileDescription(textFileSearch.getFileName()));
+		model.addAttribute("textContent", service.getFileContent(textFileSearch.getFileName()));
+		model.addAttribute("textFiles", service.getStemTexFiles());
 		return "index";
 	}
 
@@ -55,7 +60,7 @@ public class IndexController {
 
 				File textFile = getFile(textFileSearch.getFileName());
 
-				SortableValueMap<String, StemWord> stemmedMap = wordStemmerService.processTextFile(stopWordFile, textFile);
+				SortableValueMap<String, StemWord> stemmedMap = service.processTextFile(stopWordFile, textFile);
 				stemmedMap.sortByValue(true, 20);
 
 				int rowNumber = 0;
