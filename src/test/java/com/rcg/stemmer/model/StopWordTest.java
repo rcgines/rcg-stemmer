@@ -46,7 +46,7 @@ public class StopWordTest {
 
 		stopWord.init(stopWordFile);
 
-		assertTrue(stopWord.contains(phrase));
+		assertTrue(stopWord.isExists(phrase));
 	}
 
 	@Test
@@ -55,7 +55,7 @@ public class StopWordTest {
 
 		stopWord.init(stopWordFile);
 
-		assertFalse(stopWord.contains(phrase));
+		assertFalse(stopWord.isExists(phrase));
 	}
 
 }

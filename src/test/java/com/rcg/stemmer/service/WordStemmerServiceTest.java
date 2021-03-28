@@ -39,6 +39,7 @@ public class WordStemmerServiceTest {
 		String fileName = "Text1.txt";
 
 		SortableValueMap<String, StemWord> stemmedMap = processFile(getFile(fileName));
+		printOut(stemmedMap, fileName);
 
 		StemWord stemWord = getFirstStemWord(stemmedMap);
 		Assertions.assertTrue(stemWord != null);
@@ -46,7 +47,6 @@ public class WordStemmerServiceTest {
 		Assertions.assertEquals(11, stemWord.getCount());
 		Assertions.assertEquals("us", stemWord.getOriginalWords());
 
-		//		printOut(stemmedMap, fileName);
 	}
 
 	@Test
@@ -54,6 +54,7 @@ public class WordStemmerServiceTest {
 		String fileName = "Text2.txt";
 
 		SortableValueMap<String, StemWord> stemmedMap = processFile(getFile(fileName));
+		printOut(stemmedMap, fileName);
 
 		StemWord stemWord = getFirstStemWord(stemmedMap);
 		Assertions.assertTrue(stemWord != null);
@@ -61,7 +62,6 @@ public class WordStemmerServiceTest {
 		Assertions.assertEquals(462, stemWord.getCount());
 		Assertions.assertEquals("said", stemWord.getOriginalWords());
 
-		//		printOut(stemmedMap, fileName);
 	}
 
 	@Test
@@ -69,6 +69,7 @@ public class WordStemmerServiceTest {
 		String fileName = "Text3.txt";
 
 		SortableValueMap<String, StemWord> stemmedMap = processFile(getFile(fileName));
+		printOut(stemmedMap, fileName);
 
 		StemWord stemWord = getFirstStemWord(stemmedMap);
 		Assertions.assertTrue(stemWord != null);
@@ -76,7 +77,6 @@ public class WordStemmerServiceTest {
 		Assertions.assertEquals(3, stemWord.getCount());
 		Assertions.assertEquals("jumps, jumping, jumped", stemWord.getOriginalWords());
 
-		//		printOut(stemmedMap, fileName);
 	}
 
 	private SortableValueMap<String, StemWord> processFile(File textFile) {
@@ -88,6 +88,14 @@ public class WordStemmerServiceTest {
 		stemmedMap.sortByValue(true, 20);
 
 		return stemmedMap;
+	}
+
+	private void verifyNotInStopWords(SortableValueMap<String, StemWord> stemmedMap) {
+		Iterator<Entry<String, StemWord>> iterator = stemmedMap.entrySet().iterator();
+		while (iterator.hasNext()) {
+			Entry<String, StemWord> next = iterator.next();
+			Assertions.assertFalse(stopWord.startsWith(next.getKey()));
+		}
 	}
 
 	private void printOut(SortableValueMap<String, StemWord> stemmedMap, String fileName) {

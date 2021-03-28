@@ -3,6 +3,7 @@ package com.rcg.stemmer.model;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 import org.slf4j.Logger;
@@ -47,8 +48,14 @@ public class StopWord {
 		}
 	}
 
-	public boolean contains(String word) {
-		return stopWords.contains(word);
+	public boolean isExists(String word) {
+		Optional<String> optional = stopWords.stream().filter(p -> p.equalsIgnoreCase(word)).findAny();
+		return optional.isPresent();
+	}
+
+	public boolean startsWith(String word) {
+		Optional<String> optional = stopWords.stream().filter(p -> p.startsWith(word)).findAny();
+		return optional.isPresent();
 	}
 
 	public List<String> getStopWords() {

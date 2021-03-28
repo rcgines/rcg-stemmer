@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 public class StemmerTest {
 
 	@Test
-	public void testStemWord() {
+	public void testStemWordJump() {
 
 		List<String> originalWords = new ArrayList<>();
 		originalWords.add("jumping");
@@ -21,6 +21,18 @@ public class StemmerTest {
 			Assertions.assertEquals("jump", stemmed);
 		}
 
+	}
+
+	@Test
+	public void testStemWordAlice() {
+		String stemmed = stemWord("Alice's");
+		Assertions.assertEquals("Alice'", stemmed);
+	}
+
+	@Test
+	public void testStemWordSaid() {
+		String stemmed = stemWord("said'");
+		Assertions.assertEquals("said'", stemmed);
 	}
 
 	private String stemWord(String word) {

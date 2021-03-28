@@ -53,11 +53,11 @@ public class WordStemmerService {
 			// initialize the stop words
 			stopWord.init(stopWordsFile);
 
-			// extract the words from the file
-			List<String> extractedWords = originalWord.extractWords(textFile);
+			// extract the original words from the file
+			List<String> originalWords = originalWord.extractWords(textFile);
 
 			// stem the words
-			stemmedMap = stemWords(extractedWords);
+			stemmedMap = stemWords(originalWords);
 
 		} catch (Exception ex) {
 			LOGGER.error("Error processing the text file", ex);
@@ -66,23 +66,29 @@ public class WordStemmerService {
 		return stemmedMap;
 	}
 
-	private SortableValueMap<String, StemWord> stemWords(List<String> extractedWords) {
+	private SortableValueMap<String, StemWord> stemWords(List<String> originalWords) {
 		SortableValueMap<String, StemWord> stemmedMap = new SortableValueMap<>();
 
-		for (String word : extractedWords) {
-			Stemmer stemmer = new Stemmer();
-			stemmer.add(word.toCharArray(), word.length());
+		for (String word : originalWords) {
+			if (!stopWord.isExists(word.trim())) {
+				String cleanseWord = originalWord.cleanseWord(word);
 
-			if (!stopWord.contains(word.trim())) {
+				Stemmer stemmer = new Stemmer();
+				stemmer.add(cleanseWord.toCharArray(), cleanseWord.length());
+
 				stemmer.stem();
 				String stemmed = stemmer.toString();
+
+				if (stemmed.trim().length() == 0) {
+					continue;
+				}
 
 				StemWord stemWord = stemmedMap.get(stemmed);
 				if (stemWord != null) {
 					stemWord.incrementCount();
-					stemWord.addOriginalWord(word.trim());
+					stemWord.addOriginalWord(cleanseWord.trim());
 				} else {
-					stemWord = new StemWord(stemmed, word.trim());
+					stemWord = new StemWord(stemmed, cleanseWord.trim());
 					stemmedMap.put(stemmed, stemWord);
 				}
 			}
