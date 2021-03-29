@@ -25,14 +25,15 @@ public class StemmerTest {
 
 	@Test
 	public void testStemWordAlice() {
+
 		String stemmed = stemWord("Alice's");
 		Assertions.assertEquals("Alice'", stemmed);
 	}
 
 	@Test
-	public void testStemWordSaid() {
-		String stemmed = stemWord("said'");
-		Assertions.assertEquals("said'", stemmed);
+	public void testWordEndingWithE() {
+		String stemmed = stemWord("course");
+		Assertions.assertEquals("cours", stemmed);
 	}
 
 	private String stemWord(String word) {

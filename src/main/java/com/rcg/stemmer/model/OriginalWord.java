@@ -42,9 +42,7 @@ public class OriginalWord {
 	private void addWords(List<String> extractedWords, String[] words) {
 		for (String word : words) {
 			if (word != null && !word.trim().isEmpty()) {
-				//				String cleanseWord = word.replaceAll("[0-9]", "");
 				String cleanseWord = word.replaceAll("[0-9*+-/.,;:!?`()]", "");
-				//				cleanseWord = cleanseWord.replaceAll("\"", "");
 				if (!cleanseWord.trim().isEmpty()) {
 					extractedWords.add(cleanseWord);
 				}

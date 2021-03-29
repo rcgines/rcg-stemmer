@@ -6,7 +6,6 @@ import java.net.URL;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -67,22 +66,13 @@ public class OriginalWordTest {
 	}
 
 	private List<String> getOriginalWords(File textFile, String filterWord) throws Exception {
-		List<String> originalWords = new ArrayList<>();
-		try (Scanner scanner = new Scanner(textFile)) {
-			while (scanner.hasNextLine()) {
-				String line = scanner.nextLine();
-				if (!line.isEmpty()) {
-					String[] words = line.split(" ");
-					for (String word : words) {
-						if (word.toLowerCase().contains(filterWord.toLowerCase())) {
-							originalWords.add(word);
-						}
-					}
+		List<String> originalWords = originalWord.extractWords(textFile);
+		for (String word : originalWords) {
+			if (word != null && !word.isEmpty()) {
+				if (word.indexOf(filterWord) >= 0) {
+					originalWords.add(word);
 				}
 			}
-
-		} catch (Exception ex) {
-			throw ex;
 		}
 		return originalWords;
 	}

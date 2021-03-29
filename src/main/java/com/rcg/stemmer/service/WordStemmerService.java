@@ -70,28 +70,36 @@ public class WordStemmerService {
 		SortableValueMap<String, StemWord> stemmedMap = new SortableValueMap<>();
 
 		for (String word : originalWords) {
-			if (!stopWord.isExists(word.trim())) {
-				String cleanseWord = originalWord.cleanseWord(word);
-
-				Stemmer stemmer = new Stemmer();
-				stemmer.add(cleanseWord.toCharArray(), cleanseWord.length());
-
-				stemmer.stem();
-				String stemmed = stemmer.toString();
-
-				if (stemmed.trim().length() == 0) {
-					continue;
-				}
-
-				StemWord stemWord = stemmedMap.get(stemmed);
-				if (stemWord != null) {
-					stemWord.incrementCount();
-					stemWord.addOriginalWord(cleanseWord.trim());
-				} else {
-					stemWord = new StemWord(stemmed, cleanseWord.trim());
-					stemmedMap.put(stemmed, stemWord);
-				}
+			// if original word is in stop word list, skip
+			if (stopWord.isExists(word.trim())) {
+				continue;
 			}
+
+			String cleansedWord = originalWord.cleanseWord(word);
+			// if cleansed word is in stop word list, skip as well
+			if (stopWord.isExists(cleansedWord)) {
+				continue;
+			}
+
+			Stemmer stemmer = new Stemmer();
+			stemmer.add(cleansedWord.toCharArray(), cleansedWord.length());
+
+			stemmer.stem();
+			String stemmed = stemmer.toString();
+
+			if (stemmed.trim().length() == 0) {
+				continue;
+			}
+
+			StemWord stemWord = stemmedMap.get(stemmed);
+			if (stemWord != null) {
+				stemWord.incrementCount();
+				stemWord.addOriginalWord(cleansedWord.trim());
+			} else {
+				stemWord = new StemWord(stemmed, cleansedWord.trim());
+				stemmedMap.put(stemmed, stemWord);
+			}
+
 		}
 		return stemmedMap;
 	}
