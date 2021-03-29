@@ -55,13 +55,15 @@ public class IndexController {
 	private List<StemWord> executeStemmer(TextFileSearch textFileSearch) {
 		List<StemWord> stemmedWords = new ArrayList<>();
 		try {
+			Integer dispayRows =
+					textFileSearch.getDisplayRows() != null ? textFileSearch.getDisplayRows() : stemmerConfig.getDisplayRows();
 			if (textFileSearch.getFileName() != null) {
 				File stopWordFile = getFile(stemmerConfig.getStopWordFile());
 
 				File textFile = getFile(textFileSearch.getFileName());
 
 				SortableValueMap<String, StemWord> stemmedMap = service.processTextFile(stopWordFile, textFile);
-				stemmedMap.sortByValue(true, 20);
+				stemmedMap.sortByValue(true, dispayRows);
 
 				int rowNumber = 0;
 				Iterator<Entry<String, StemWord>> iterator = stemmedMap.entrySet().iterator();

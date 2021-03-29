@@ -135,7 +135,7 @@ public class WordStemmerService {
 	public List<StemTexFile> getStemTexFiles() {
 		List<StemTexFile> textFiles = new ArrayList<>();
 
-		textFiles.add(new StemTexFile("", "(Please select a text file)"));
+		textFiles.add(new StemTexFile("", "(Please select)"));
 		textFiles.add(new StemTexFile(config.getText1FileName(), config.getText1FileDescription()));
 		textFiles.add(new StemTexFile(config.getText2FileName(), config.getText2FileDescription()));
 

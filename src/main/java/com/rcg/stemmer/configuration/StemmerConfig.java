@@ -26,6 +26,9 @@ public class StemmerConfig {
 	@Value(value = "${stemmer.text2.fileDescription}")
 	private String text2FileDescription;
 
+	@Value(value = "${stemmer.display.rows}")
+	private Integer displayRows;
+
 	public String getPath() {
 		return path;
 	}
@@ -72,6 +75,14 @@ public class StemmerConfig {
 
 	public void setText2FileDescription(String text2FileDescription) {
 		this.text2FileDescription = text2FileDescription;
+	}
+
+	public Integer getDisplayRows() {
+		return displayRows;
+	}
+
+	public void setDisplayRows(Integer displayRows) {
+		this.displayRows = displayRows;
 	}
 
 }
