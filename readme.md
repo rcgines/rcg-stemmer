@@ -6,11 +6,16 @@
 4. Computes the frequency of each word and add it to sortable Map.
 5. Displays the 20 most commonly occurring words in descending order of frequency.
 
-# To run the application as standalone
+# Required softwares to run the application
 
-1. Create a folder C:\Stemmer
+1. Java 8+
+2. Chrome browser
 
-2. Copy the following files from \program to C:\Stemmer
+# Steps to run the application as standalone
+
+1. Create a folder c:\Stemmer
+
+2. Copy the following files from \program folder to c:\Stemmer
  	- stopwords.txt
     - Text1.txt
     - Text2.txt   
@@ -22,4 +27,4 @@
 4. Open Chrome browser and type the URL
     - http://localhost:8500/stemmer
 
-5. Select text file from the list and click on Process
+5. Select a text file from the list and click on the Process button
