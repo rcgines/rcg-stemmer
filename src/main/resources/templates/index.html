@@ -4,61 +4,65 @@
 <meta charset="ISO-8859-1">
 <title>Raymond Gines Stemmer</title>
 
-	<script src="/webjars/jquery/jquery.min.js"></script>
-	<script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+<script src="/webjars/jquery/jquery.min.js"></script>
+<script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 
-	<link href='/webjars/bootstrap/css/bootstrap.min.css' rel='stylesheet' media="screen">
-    <link href="../static/css/spring-core.css" th:href="@{css/spring-core.css}" rel="stylesheet" media="screen"/>
+<link href='/webjars/bootstrap/css/bootstrap.min.css' rel='stylesheet'
+	media="screen">
+<link href="../static/css/spring-core.css"
+	th:href="@{css/spring-core.css}" rel="stylesheet" media="screen" />
 
 </head>
 <body class="container">
 	<div>
 		<div class="card mb-auto">
-			<div class="card-header text-white" style="background-color: #1F618D;">
-	           	<h4 style="float: left;">Stemming Algorithm</h4>
-	           	<h4 style="float: right;">By: Raymond Gines</h4>
-	        </div>
+			<div class="card-header text-white"
+				style="background-color: #1F618D;">
+				<h4 style="float: left;">Stemming Algorithm</h4>
+				<h4 style="float: right;">By: Raymond Gines</h4>
+			</div>
 		</div>
-		
+
 		<div class="card-body">
 			<form th:action="@{/stemmer/execute}" th:object="${search}" method="post">
 				<div class="form-group row">
-					<select class="form-control col-sm-4"id="fileName" th:name="fileName" th:value="${search.fileName}" th:required="true">
-						<option th:each="file : ${textFiles}" th:value="${file.fileName}" th:text="${file.fileDescription}">
-   						</option>
-					</select>
+					<select class="form-control col-sm-4" id="fileName"
+						th:name="fileName" th:value="${search.fileName}"
+						th:required="true">
+						<option th:each="file : ${textFiles}" th:value="${file.fileName}" th:text="${file.fileDescription}"></option>
+					</select> 
 					<input class="btn btn-primary col col-sm-2" type="submit" value="Process">
 				</div>
-				
+
 				<div class="form-group row">
 					<h4 th:text=${resultTitle} style="color: #1F618D;"></h4>
 					<textarea readonly id="textContent" name="content" th:text="${textContent}" rows="8" cols="500"></textarea>
-	            </div>
-	            
+				</div>
+
 			</form>
 		</div>
-		
+
 	</div>
-	
+
 	<div>
-    	<div th:fragment="header">
-        	<h4 style="color: #1F618D;">Stem Words</h4>
-        </div>
-        <table class="table table-striped" style="color: #1F618D;">
-            <tr>
-            	<th>#</th>
-                <th>Root Word</th>
-                <th>Count</th>
-                <th>Original Words</th>
-            </tr>
-            <tr th:each="word : ${words}">
-                <td th:text="${word.rowNumber}"></td>
-                <td th:text="${word.stemWord}"></td>
-                <td th:text="${word.count}"></td>
-                <td th:text="${word.originalWords}"></td>
-            </tr>
-        </table>
-    </div>
-	
+		<div th:fragment="header">
+			<h4 style="color: #1F618D;">Stem Words</h4>
+		</div>
+		<table class="table table-striped" style="color: #1F618D;">
+			<tr>
+				<th>#</th>
+				<th>Root Word</th>
+				<th>Count</th>
+				<th>Original Words</th>
+			</tr>
+			<tr th:each="word : ${words}">
+				<td th:text="${word.rowNumber}"></td>
+				<td th:text="${word.stemWord}"></td>
+				<td th:text="${word.count}"></td>
+				<td th:text="${word.originalWords}"></td>
+			</tr>
+		</table>
+	</div>
+
 </body>
 </html>
